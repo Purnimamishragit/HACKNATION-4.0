@@ -1,12 +1,15 @@
-
-import Web3 from "web3";
+import Web3 from 'web3';
 
 let web3;
-if (typeof window.ethereum !== "undefined") {
-  // If using MetaMask
-  web3 = new Web3(window.ethereum);
-  await window.ethereum.enable();  // Request account access if needed
+
+if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
+	console.log(window.ethereum.enable());
+	web3 = new Web3(window.web3.currentProvider);
+	console.log('Web3: ', web3);
 } else {
-  // If using Ganache locally
-  web3 = new Web3("http://127.0.0.1:8546");  // Point to Ganache's port
+	const provider = new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/29bcae4ee7454a118a2b0f0f4d86c0e0');
+	web3 = new Web3(provider);
+	console.log('Web3 else: ', web3);
 }
+
+export default web3;
